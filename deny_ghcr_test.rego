@@ -49,5 +49,5 @@ spec:
 
 test_deployment_ghcr_with_image_pull_secrets {
 	got := deny_unnecessary_image_pull_secrets with input as deployment_ghcr_with_image_pull_secrets
-    count(got) == 1
+	count(got) == 1
 }
