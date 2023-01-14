@@ -103,6 +103,25 @@ spec:
 	count(got) == 0
 }
 
+test_allow_necessary_image_pull_secrets_mixed {
+	resourceYAML := `
+kind: Deployment
+metadata:
+  name: fixture
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - docker-hub
+      containers:
+        - image: ghcr.io/foo/bar:v1.2.3
+        - image: nginx:latest
+`
+	resource := yaml.unmarshal(resourceYAML)
+	got := deny_unnecessary_image_pull_secrets with input as resource
+	count(got) == 0
+}
+
 test_deny_unnecessary_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
