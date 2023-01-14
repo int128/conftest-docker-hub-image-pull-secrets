@@ -19,11 +19,6 @@ test_deployment_docker_hub_with_image_pull_secrets {
 }
 
 test_deployment_docker_hub_with_image_pull_secrets {
-	got := deny_docker_hub_with_empty_image_pull_secrets with input as deployment_docker_hub_with_image_pull_secrets
-    count(got) == 0
-}
-
-test_deployment_docker_hub_with_image_pull_secrets {
 	got := deny_unnecessary_image_pull_secrets with input as deployment_docker_hub_with_image_pull_secrets
     count(got) == 0
 }
@@ -57,7 +52,7 @@ spec:
 `)
 
 test_deployment_docker_hub_with_empty_image_pull_secrets {
-	got := deny_docker_hub_with_empty_image_pull_secrets with input as deployment_docker_hub_with_empty_image_pull_secrets
+	got := deny_docker_hub_without_image_pull_secrets with input as deployment_docker_hub_with_empty_image_pull_secrets
     count(got) == 1
 }
 
@@ -90,7 +85,7 @@ spec:
 `)
 
 test_deployment_ghcr_without_image_pull_secrets {
-	got := deny_docker_hub_with_empty_image_pull_secrets with input as deployment_ghcr_with_empty_image_pull_secrets
+	got := deny_docker_hub_without_image_pull_secrets with input as deployment_ghcr_with_empty_image_pull_secrets
 	count(got) == 0
 }
 

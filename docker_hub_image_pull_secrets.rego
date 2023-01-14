@@ -4,7 +4,7 @@ deny_docker_hub_without_image_pull_secrets[msg] {
     is_workload(input.kind)
 	image := input.spec.template.spec.containers[_].image
 	is_docker_hub_image(image)
-	not input.spec.template.spec.imagePullSecrets
+	not has_image_pull_secrets
 
 	msg = sprintf("%s/%s: imagePullSecrets is required for Docker Hub image %s", [
 		input.kind,
@@ -13,23 +13,14 @@ deny_docker_hub_without_image_pull_secrets[msg] {
 	])
 }
 
-deny_docker_hub_with_empty_image_pull_secrets[msg] {
-    is_workload(input.kind)
-	image := input.spec.template.spec.containers[_].image
-	is_docker_hub_image(image)
-	count(input.spec.template.spec.imagePullSecrets) == 0
-
-	msg = sprintf("%s/%s: imagePullSecrets is required for Docker Hub image %s", [
-		input.kind,
-		input.metadata.name,
-		image,
-	])
+has_image_pull_secrets {
+	count(input.spec.template.spec.imagePullSecrets) > 0
 }
 
 deny_unnecessary_image_pull_secrets[msg] {
     is_workload(input.kind)
     not has_docker_hub_image
-	count(input.spec.template.spec.imagePullSecrets) > 0
+	has_image_pull_secrets
 
 	msg = sprintf("%s/%s: imagePullSecrets is not required for non Docker Hub image", [
 		input.kind,
