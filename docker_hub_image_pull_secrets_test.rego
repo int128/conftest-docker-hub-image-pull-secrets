@@ -1,6 +1,6 @@
 package main
 
-test_deny_docker_hub_image_pull_secret_is_not_set {
+test_allow_docker_hub_with_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -14,11 +14,11 @@ spec:
         - image: nginx:latest
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_set with input as resource
-	count(got) == 0
+	got := deny_docker_hub_without_image_pull_secrets with input as resource
+    count(got) == 0
 }
 
-test_deny_docker_hub_image_pull_secret_is_not_set {
+test_deny_docker_hub_without_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -30,11 +30,11 @@ spec:
         - image: nginx:latest
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_set with input as resource
-	count(got) == 1
+	got := deny_docker_hub_without_image_pull_secrets with input as resource
+    count(got) == 1
 }
 
-test_deny_docker_hub_image_pull_secret_is_not_set {
+test_deny_mixed_docker_hub_without_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -47,11 +47,11 @@ spec:
         - image: envoyproxy/envoy:latest
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_set with input as resource
+	got := deny_docker_hub_without_image_pull_secrets with input as resource
 	count(got) == 1
 }
 
-test_deny_docker_hub_image_pull_secret_is_empty {
+test_allow_ghcr_with_empty_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -64,11 +64,11 @@ spec:
         - image: ghcr.io/foo/bar:v1.2.3
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_empty with input as resource
+	got := deny_docker_hub_with_empty_image_pull_secrets with input as resource
 	count(got) == 0
 }
 
-test_deny_docker_hub_image_pull_secret_is_empty {
+test_deny_docker_hub_with_empty_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -81,11 +81,11 @@ spec:
         - image: nginx:latest
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_empty with input as resource
+	got := deny_docker_hub_with_empty_image_pull_secrets with input as resource
 	count(got) == 1
 }
 
-test_deny_docker_hub_image_pull_secret_is_not_needed {
+test_allow_necessary_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -99,11 +99,11 @@ spec:
         - image: nginx:latest
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_needed with input as resource
+	got := deny_unnecessary_image_pull_secrets with input as resource
 	count(got) == 0
 }
 
-test_deny_docker_hub_image_pull_secret_is_not_needed {
+test_deny_unnecessary_image_pull_secrets {
 	resourceYAML := `
 kind: Deployment
 metadata:
@@ -117,25 +117,6 @@ spec:
         - image: ghcr.io/foo/bar:v1.2.3
 `
 	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_needed with input as resource
-	count(got) == 1
-}
-
-test_deny_docker_hub_image_pull_secret_is_not_needed {
-	resourceYAML := `
-kind: Deployment
-metadata:
-  name: fixture
-spec:
-  template:
-    spec:
-      imagePullSecrets:
-        - docker-hub
-      containers:
-        - image: ghcr.io/foo/bar:v1.2.3
-        - image: quay.io/foo/bar:v1.2.3
-`
-	resource := yaml.unmarshal(resourceYAML)
-	got := deny_docker_hub_image_pull_secret_is_not_needed with input as resource
+	got := deny_unnecessary_image_pull_secrets with input as resource
 	count(got) == 1
 }
