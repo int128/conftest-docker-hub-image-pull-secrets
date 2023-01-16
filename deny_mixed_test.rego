@@ -9,7 +9,7 @@ spec:
   template:
     spec:
       imagePullSecrets:
-        - docker-hub
+        - name: docker-hub
       containers:
         - image: nginx:latest
         - image: ghcr.io/foo/bar:v1.2.3

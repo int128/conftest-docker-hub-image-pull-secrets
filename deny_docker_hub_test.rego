@@ -9,7 +9,7 @@ spec:
   template:
     spec:
       imagePullSecrets:
-        - docker-hub
+        - name: docker-hub
       containers:
         - image: nginx:latest
 `)
