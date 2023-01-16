@@ -42,7 +42,7 @@ spec:
   template:
     spec:
       imagePullSecrets:
-        - docker-hub
+        - name: docker-hub
       containers:
         - image: ghcr.io/foo/bar:v1.2.3
 `)
