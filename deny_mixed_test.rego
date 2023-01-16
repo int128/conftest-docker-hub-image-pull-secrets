@@ -1,4 +1,4 @@
-package main
+package docker_hub_image_pull_secrets
 
 # Docker Hub and GHCR
 deployment_mixed_with_image_pull_secrets := yaml.unmarshal(`

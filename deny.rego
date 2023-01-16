@@ -1,4 +1,4 @@
-package main
+package docker_hub_image_pull_secrets
 
 deny_docker_hub_without_image_pull_secrets[msg] {
 	is_workload(input.kind)
