@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - .github/workflows/conftest.yaml
+      - aqua.yaml
       - "**/*.rego"
   push:
     branches:
       - main
     paths:
       - .github/workflows/conftest.yaml
+      - aqua.yaml
       - "**/*.rego"
 
 jobs:
