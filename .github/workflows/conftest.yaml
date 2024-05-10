@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: aquaproj/aqua-installer@v2.3.2
         with:
-          aqua_version: v2.27.3
+          aqua_version: v2.27.4
       - run: conftest verify -p .
 
   fmt:
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: aquaproj/aqua-installer@v2.3.2
         with:
-          aqua_version: v2.27.3
+          aqua_version: v2.27.4
       - run: opa fmt -d .
       - run: opa fmt -w .
       - uses: int128/update-generated-files-action@v2
