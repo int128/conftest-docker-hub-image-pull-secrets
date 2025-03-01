@@ -15,7 +15,7 @@ on:
       - "**/*.rego"
 
 jobs:
-  verify:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -23,7 +23,7 @@ jobs:
       - uses: aquaproj/aqua-installer@v3.1.1
         with:
           aqua_version: v2.45.0
-      - run: conftest verify -p .
+      - run: make test
 
   fmt:
     runs-on: ubuntu-latest
@@ -33,6 +33,5 @@ jobs:
       - uses: aquaproj/aqua-installer@v3.1.1
         with:
           aqua_version: v2.45.0
-      - run: opa fmt -d .
-      - run: opa fmt -w .
+      - run: make fmt
       - uses: int128/update-generated-files-action@v2
