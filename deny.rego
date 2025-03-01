@@ -1,6 +1,8 @@
 package docker_hub_image_pull_secrets
 
-deny_docker_hub_without_image_pull_secrets[msg] {
+import rego.v1
+
+deny_docker_hub_without_image_pull_secrets contains msg if {
 	is_workload(input.kind)
 	image := input.spec.template.spec.containers[_].image
 	is_docker_hub_image(image)
@@ -13,11 +15,11 @@ deny_docker_hub_without_image_pull_secrets[msg] {
 	])
 }
 
-has_image_pull_secrets {
+has_image_pull_secrets if {
 	count(input.spec.template.spec.imagePullSecrets) > 0
 }
 
-deny_unnecessary_image_pull_secrets[msg] {
+deny_unnecessary_image_pull_secrets contains msg if {
 	is_workload(input.kind)
 	not has_docker_hub_image
 	has_image_pull_secrets
@@ -28,12 +30,12 @@ deny_unnecessary_image_pull_secrets[msg] {
 	])
 }
 
-has_docker_hub_image {
+has_docker_hub_image if {
 	image := input.spec.template.spec.containers[_].image
 	is_docker_hub_image(image)
 }
 
-is_workload(kind) {
+is_workload(kind) if {
 	workload_kinds := [
 		"Deployment",
 		"Job",
@@ -43,7 +45,7 @@ is_workload(kind) {
 	kind == workload_kinds[_]
 }
 
-is_docker_hub_image(image) {
+is_docker_hub_image(image) if {
 	# repository name only contain lowercase letters, numbers, hyphens (-), and underscores (_)
 	# https://docs.docker.com/docker-hub/repos/
 	docker_hub_image_patterns = [

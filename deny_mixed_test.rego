@@ -1,5 +1,7 @@
 package docker_hub_image_pull_secrets
 
+import rego.v1
+
 # Docker Hub and GHCR
 deployment_mixed_with_image_pull_secrets := yaml.unmarshal(`
 kind: Deployment
@@ -15,12 +17,12 @@ spec:
         - image: ghcr.io/foo/bar:v1.2.3
 `)
 
-test_deployment_mixed_with_image_pull_secrets {
+test_deployment_mixed_with_image_pull_secrets if {
 	got := deny_docker_hub_without_image_pull_secrets with input as deployment_mixed_with_image_pull_secrets
 	count(got) == 0
 }
 
-test_deployment_mixed_with_image_pull_secrets {
+test_deployment_mixed_with_image_pull_secrets if {
 	got := deny_unnecessary_image_pull_secrets with input as deployment_mixed_with_image_pull_secrets
 	count(got) == 0
 }
@@ -37,7 +39,7 @@ spec:
         - image: ghcr.io/foo/bar:v1.2.3
 `)
 
-test_deployment_mixed_without_image_pull_secrets {
+test_deployment_mixed_without_image_pull_secrets if {
 	got := deny_docker_hub_without_image_pull_secrets with input as deployment_mixed_without_image_pull_secrets
 	count(got) == 1
 }
@@ -55,7 +57,7 @@ spec:
         - image: ghcr.io/foo/bar:v1.2.3
 `)
 
-test_deployment_mixed_with_empty_image_pull_secrets {
+test_deployment_mixed_with_empty_image_pull_secrets if {
 	got := deny_docker_hub_without_image_pull_secrets with input as deployment_mixed_with_empty_image_pull_secrets
 	count(got) == 1
 }
