@@ -3,5 +3,5 @@ registries:
     ref: v4.374.0 # renovate: depName=aquaproj/aqua-registry
 
 packages:
-  - name: open-policy-agent/conftest@v0.60.0
+  - name: open-policy-agent/conftest@v0.61.0
   - name: open-policy-agent/opa@v1.5.0
