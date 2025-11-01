@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: aquaproj/aqua-installer@v4.0.3
         with:
-          aqua_version: v2.55.0
+          aqua_version: v2.55.1
       - run: make test
 
   fmt:
@@ -32,6 +32,6 @@ jobs:
       - uses: actions/checkout@v5
       - uses: aquaproj/aqua-installer@v4.0.3
         with:
-          aqua_version: v2.55.0
+          aqua_version: v2.55.1
       - run: make fmt
       - uses: int128/update-generated-files-action@v2
