@@ -4,4 +4,4 @@ registries:
 
 packages:
   - name: open-policy-agent/conftest@v0.68.2
-  - name: open-policy-agent/opa@v1.18.0
+  - name: open-policy-agent/opa@v1.18.2
